@@ -2,13 +2,13 @@
 import { useState } from "react";
 import Link from "next/link";
 const plans = [
-  { id: "free", name: "Free Plan", price: 0, color: "border-gray-700", buttonColor: "bg-gray-700 hover:bg-gray-600", features: ["5 AI legal queries per day","3 document generations per month","Basic Indian law coverage","Email support"] },
+  { id: "free", name: "Free Plan", price: 0, color: "border-gray-700", buttonColor: "bg-gray-700 hover:bg-gray-600", popular: false, features: ["5 AI legal queries per day","3 document generations per month","Basic Indian law coverage","Email support"] },
   { id: "pro", name: "Pro Plan", price: 299, color: "border-blue-500", buttonColor: "bg-blue-600 hover:bg-blue-700", popular: true, features: ["Unlimited AI legal queries","Unlimited document generation","Full Indian law coverage","Live court case search","Upload unlimited documents","Priority support"] },
-  { id: "lawyer", name: "Lawyer Plan", price: 999, color: "border-purple-500", buttonColor: "bg-purple-600 hover:bg-purple-700", features: ["Everything in Pro","White label for your firm","Client management dashboard","Bulk document generation","Custom legal templates","Dedicated support"] },
+  { id: "lawyer", name: "Lawyer Plan", price: 999, color: "border-purple-500", buttonColor: "bg-purple-600 hover:bg-purple-700", popular: false, features: ["Everything in Pro","White label for your firm","Client management dashboard","Bulk document generation","Custom legal templates","Dedicated support"] },
 ];
 export default function Pricing() {
-  const [loading, setLoading] = useState(null);
-  async function handlePayment(plan) {
+  const [loading, setLoading] = useState<string|null>(null);
+  async function handlePayment(plan: any) {
     if (plan.price === 0) return;
     setLoading(plan.id);
     try {
@@ -25,14 +25,13 @@ export default function Pricing() {
         prefill: { name: "User", email: "", contact: "" },
         theme: { color: "#3B82F6" },
       };
-      const razorpay = new window.Razorpay(options);
+      const razorpay = new (window as any).Razorpay(options);
       razorpay.open();
     } catch { alert("Payment failed. Please try again."); }
     setLoading(null);
   }
   return (
     <main className="min-h-screen bg-gray-950 text-white p-4">
-      <script src="https://checkout.razorpay.com/v1/checkout.js" async></script>
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-10">
           <h1 className="text-4xl font-bold text-blue-400">AdvokateAI Panda</h1>
@@ -49,7 +48,7 @@ export default function Pricing() {
               </div>
               <ul className="flex flex-col gap-2 mb-6 flex-1">
                 {plan.features.map((feature, i) => (
-                  <li key={i} className="flex items-center gap-2 text-sm text-gray-300"><span className="text-green-400">check</span>{feature}</li>
+                  <li key={i} className="flex items-center gap-2 text-sm text-gray-300"><span className="text-green-400">?</span>{feature}</li>
                 ))}
               </ul>
               <button onClick={() => handlePayment(plan)} disabled={loading === plan.id} className={"w-full py-3 rounded-xl font-semibold text-white transition-all " + plan.buttonColor}>
