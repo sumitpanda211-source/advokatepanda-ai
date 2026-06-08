@@ -6,13 +6,12 @@ export const metadata: Metadata = {
   description: "India's smartest AI-powered legal assistant. Get legal advice, generate documents, and know your rights.",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+      </head>
       <body>{children}</body>
     </html>
   );
